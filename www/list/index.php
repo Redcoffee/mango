@@ -14,11 +14,11 @@ $g->page->display();
             <span class="chk spr pull-left"></span>
             <a href="#" class="arrow spr pull-right"></a>
             <select class="stock pull-right">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+                <option>x1</option>
+                <option>x2</option>
+                <option>x3</option>
+                <option>x4</option>
+                <option>x5</option>
             </select>
             <div class="item-wrap">
                 <div class="thumb pull-left"><img src="/files/r1.jpg"></div>

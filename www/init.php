@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL ^ E_NOTICE);
+ini_set('display_errors', '1');
+
 $g->page->title = 'Hello';
 $g->page->head[] = DIR_WWW.'/modules/head.php';
 $g->page->css[] = STATIC_WWW.'/vendor/bootstrap/css/bootstrap.min.css';
