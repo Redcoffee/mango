@@ -8,7 +8,7 @@ $results = $g->db->fetch_all($query);
 ?>
 <header class="navbar-fixed-top">
     <a href="#" class="btn-line pull-left">뒤로</a>
-    <a href="#" class="btn-line pull-right">장바구니<span id="cart-count"></span></a>
+    <a href="#" class="btn-line pull-right cart">장바구니<span id="cart-badge" class="badge"></span></a>
     <h1><b>망고</b>마트</h1>
 </header>
 <section class="body">
@@ -17,7 +17,7 @@ $results = $g->db->fetch_all($query);
         foreach ($results as $item):
             $thumb_url = "/files/r".$item[id].".jpg";
         ?>
-        <li>
+        <li id="<?=$item[id]?>" data-item-id="<?=$item[id]?>">
             <!--span class="chk spr pull-left"></span-->
             <a href="#" class="arrow spr pull-right"></a>
             <span class="stock pull-right">v</span>
@@ -43,44 +43,93 @@ $results = $g->db->fetch_all($query);
 </section>
 
 <script type="text/javascript">
-    var $cart_count = 0;
+    var user = 'redcoffee';
 
+    try {
+        var cart = JSON.parse(localStorage.getItem(user));
+        for (var i = 0; i < cart.item.length; i++) {
+            $list = $('li[data-item-id |= '+cart.item[i]+']');
+            if ($list.length) list_toggle($list);
+        };
+    }catch(e){
+        localStorage.clear();
+        //todo : 서버에 저장된 정보가 있으면 새롭게 가져오기
+        var cart = new Object();
+        cart.item = new Array();
+    }
+    cart_badge_update(cart.item.length);
+
+    function list_toggle(obj) {
+        var $self = $(obj)
+            , $prev = $self.prev()
+            , $next = $self.next();
+
+        // 클래스 처리
+        $self.toggleClass('active');
+        $self.removeClass('shade');
+
+        // 그림자 처리
+        switch ($self[0].className) {
+            case 'active':
+                if (!$prev.hasClass('active')) {
+                    $self.addClass('shade');
+                }
+                if ($next.hasClass('active')) {
+                    $next.removeClass('shade');
+                }
+            break;
+            case '':
+                if ($next.hasClass('active')) {
+                    $next.addClass('shade');
+                }
+            break;
+        }
+    }
+
+    function cart_badge_update(count) {
+        // 장바구니 배지 표시
+        var $cart_badge = $('#cart-badge');
+
+        if (count > 0) {
+            $cart_badge.html(count);
+            $cart_badge.fadeIn('fast');
+        } else if (count <= 0) {
+            $cart_badge.fadeOut('fast');
+            $cart_badge.html();
+        }
+    }
+
+    // 리스트 클릭 처리
     $('li > .item-wrap').each( function() {
         new FastClick(this);
+
         $(this).click( function() {
 
-            var $parent = $(this).parent();
-            var $prev = $parent.prev();
-            var $next = $parent.next();
+            var $parent = $(this).parent()
+                , item_id = $parent.attr('id');
 
-            $parent.toggleClass('active');
-            $parent.removeClass('shade');
+            // 리스트 토글
+            list_toggle($parent);
 
-            // 그림자 처리
-            switch ($parent[0].className) {
-                case 'active':
-                    if (!$prev.hasClass('active')) {
-                        $parent.addClass('shade');
-                    }
-                    if ($next.hasClass('active')) {
-                        $next.removeClass('shade');
-                    }
-                break;
-                case '':
-                    if ($next.hasClass('active')) {
-                        $next.addClass('shade');
-                    }
-                break;
+
+
+            if ($parent.is('.active')) {
+                // 장바구니에 아이템 추가
+                if (cart.item.indexOf(item_id)<0) cart.item.push(item_id);
+            } else {
+                // 장바구니에 아이템 제거
+                cart.item.splice(cart.item.indexOf(item_id),1);
             }
 
-            if ($parent.is('.active')) $cart_count++;
-                else $cart_count--;
+            cart.timestamp = new Date().getTime();
 
-            if ($cart_count > 0) {
-                $('#cart-count').html(" ("+$cart_count+")");
-            }else if ($cart_count < 1) {
-                $('#cart-count').html("");
-            }
+            localStorage.setItem(user,JSON.stringify(cart));
+
+            console.log(cart);
+            console.log(cart.item);
+
+            // 장바구니 배지 표시
+            cart_badge_update(cart.item.length);
         });
     });
 
