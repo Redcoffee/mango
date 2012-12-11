@@ -1,5 +1,4 @@
 <?php
-$g->page->js[] = 'http://static.dofork.com/mobile/js/fastclick.js';
 $g->page->css[] = './list.css';
 $g->page->display();
 ?>
