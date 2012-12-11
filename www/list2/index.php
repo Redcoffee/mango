@@ -1,9 +1,7 @@
 <?php
-$g->page->js[] = 'http://static.dofork.com/mobile/js/fastclick.js';
 $g->page->css[] = './list.css';
 $g->page->display();
 ?>
-
 <header class="navbar-fixed-top">
     <a href="#" class="btn-line pull-left">뒤로</a>
     <a href="#" class="btn-line pull-right">장바구니</a>
@@ -14,15 +12,13 @@ $g->page->display();
         <li>
             <span class="chk spr pull-left"></span>
             <a href="#" class="arrow spr pull-right"></a>
-            <div class="stock">
-                <select class="stock pull-right">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
-            </div>
+            <select class="stock pull-right">
+                <option>x1</option>
+                <option>x2</option>
+                <option>x3</option>
+                <option>x4</option>
+                <option>x5</option>
+            </select>
             <div class="item-wrap">
                 <div class="thumb pull-left"><img src="/files/r1.jpg"></div>
                 <div class="inner-wrap">
@@ -34,15 +30,13 @@ $g->page->display();
         <li>
             <span class="chk spr pull-left"></span>
             <a href="#" class="arrow spr pull-right"></a>
-            <div class="">
-                <select class="stock pull-right">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
-            </div>
+            <select class="stock pull-right">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
             <div class="item-wrap">
                 <div class="thumb pull-left"><img src="/files/r4.jpg"></div>
                 <div class="inner-wrap">
@@ -217,7 +211,6 @@ $g->page->display();
 </section>
 
 <script type="text/javascript">
-$(function(){
     $('li > .item-wrap').each( function() {
         new FastClick(this);
         $(this).click( function() {
@@ -247,7 +240,7 @@ $(function(){
             }
         });
     });
-
+/*
     $('select.stock').each( function(){
         var title = $(this).attr('title');
         if( $('option:selected', this).val() != '') title = $('option:selected',this).text();
@@ -259,7 +252,7 @@ $(function(){
                 $(this).next().text(val);
                 })
     });
-});
+*/
 </script>
 
 

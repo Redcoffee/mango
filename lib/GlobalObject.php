@@ -25,6 +25,9 @@ class GlobalObject {
         if ( $name == 'page' ) {
             return $this->page = new Page();
         }
+        if ( $name == 'db' ) {
+            return $this->db = new MySQL();
+        }
     }
 }
 ?>
